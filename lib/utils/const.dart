@@ -1,1 +1,1 @@
-const String apiKey = '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';
+const String apiKey = 'your api key';

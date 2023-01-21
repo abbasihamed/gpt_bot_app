@@ -12,7 +12,7 @@ class AppTheme {
         cursorColor: Colors.blue,
       ),
       inputDecorationTheme: InputDecorationTheme(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
         border: InputBorder.none,
         hintStyle: TextStyle(
           color: Colors.grey[500],
@@ -23,7 +23,7 @@ class AppTheme {
         color: Colors.black,
       ),
       indicatorColor: Colors.red,
-      useMaterial3: true,
+      // useMaterial3: true,
       shadowColor: Colors.grey[300],
       colorScheme: ColorScheme.light(
         brightness: Brightness.light,

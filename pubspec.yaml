@@ -41,6 +41,7 @@ dependencies:
   get_it: ^7.2.0
   jumping_dot: ^0.0.4
   flutter_hooks: ^0.18.5+1
+  device_preview: ^1.1.0
 
 dev_dependencies:
   flutter_test:

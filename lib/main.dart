@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:talk_with_bot/injection.dart';
@@ -12,7 +13,12 @@ void main(List<String> args) {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
   HttpOverrides.global = MyHttpOverrides();
-  runApp(const MyApp());
+  runApp(DevicePreview(
+    enabled: false,
+    builder: (context) {
+      return const MyApp();
+    }
+  ));
 }
 
 class MyApp extends StatelessWidget {
