@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:talk_with_bot/presentations/components/app_loading.dart';
 import 'package:talk_with_bot/presentations/components/message_card.dart';
@@ -62,8 +63,8 @@ class ChatScreen extends HookWidget {
                     itemBuilder: (context, index) {
                       return MessagesCard(
                         sender: controller.qAndALists[index].sender,
-                        message: controller.qAndALists[index].message,
-                        date: '12:50 pm',
+                        message: controller.qAndALists[index].message.replaceAll('\n', ''),
+                        date: Jiffy(controller.qAndALists[index].dateTime).jm,
                       );
                     },
                   ),

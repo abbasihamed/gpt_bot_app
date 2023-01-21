@@ -18,7 +18,6 @@ class SendQuestion {
         body: jsonEncode(
             {"model": "text-davinci-003", "prompt": value, "max_tokens": 100}),
       );
-      print(response.body);
       if (response.statusCode == 200) {
         return Success(data: qandAModelsFromJson(response.body), code: 200);
       }

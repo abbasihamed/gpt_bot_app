@@ -28,13 +28,13 @@ class QuestionController extends ChangeNotifier {
     setLoading(true);
     final maped = QandAMapper.transferToMAp('user', value);
     setData(maped);
-    // final response = await question.sendQuestion(value);
-    // if (response is Success) {
-    //   // final maped = QandAMapper.transferToMAp('bot', response.data);
-    //   setData(maped);
-    // } else {
-    //   print('Has a Error');
-    // }
+    final response = await question.sendQuestion(value);
+    if (response is Success) {
+      final maped = QandAMapper.transferToMAp('bot', response.data);
+      setData(maped);
+    } else {
+      print('Has a Error');
+    }
     setLoading(false);
     notifyListeners();
   }
