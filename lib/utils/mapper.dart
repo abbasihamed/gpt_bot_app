@@ -8,7 +8,7 @@ class QandAMapper {
       return QandA(
           dateTime: dateTime,
           sender: sender,
-          message: data.choices![0].text.toString().replaceAll(r'\n\n', ''));
+          message: data.choices![0].text.toString());
     }
     if (data is String) {
       return QandA(dateTime: dateTime, sender: sender, message: data);

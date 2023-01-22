@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:talk_with_bot/data/send_question.dart';
+import 'package:talk_with_bot/entity/errors.dart';
 import 'package:talk_with_bot/entity/qanda.dart';
 import 'package:talk_with_bot/injection.dart';
 import 'package:talk_with_bot/utils/data_state.dart';
@@ -10,12 +11,19 @@ class QuestionController extends ChangeNotifier {
 
   final List<QandA> _qAndALists = [];
   bool _isLoading = false;
+  Error? _errorData;
 
   List<QandA> get qAndALists => _qAndALists;
   bool get isLoading => _isLoading;
+  Error get errorData => _errorData!;
 
   setData(QandA value) {
     _qAndALists.add(value);
+    notifyListeners();
+  }
+
+  setErrorData(Error value) {
+    _errorData = value;
     notifyListeners();
   }
 
@@ -32,8 +40,11 @@ class QuestionController extends ChangeNotifier {
     if (response is Success) {
       final maped = QandAMapper.transferToMAp('bot', response.data);
       setData(maped);
-    } else {
-      print('Has a Error');
+    }
+    if (response is Failed) {
+      Error error = Error(code: response.code, message: response.data);
+      print(error.message);
+      setErrorData(error);
     }
     setLoading(false);
     notifyListeners();

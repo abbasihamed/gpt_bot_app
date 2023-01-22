@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:talk_with_bot/presentations/components/app_loading.dart';
 import 'package:talk_with_bot/utils/theme.dart';
 
 class MessagesCard extends StatelessWidget {
-  final String message;
-  final String date;
-  final String sender;
+  final String? message;
+  final String? date;
+  final String? sender;
+  final bool isLoading;
   const MessagesCard({
     Key? key,
-    required this.message,
-    required this.date,
-    required this.sender,
+    this.message,
+    this.date,
+    this.sender,
+    this.isLoading = false,
   }) : super(key: key);
 
   @override
@@ -37,30 +40,32 @@ class MessagesCard extends StatelessWidget {
               : theme(context).colorScheme.onPrimaryContainer,
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child: Text(
-                    message,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                    ),
+            child: isLoading
+                ? const AppLoading()
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          '$message',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        ' $date',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey[600],
+                        ),
+                      )
+                    ],
                   ),
-                ),
-                Text(
-                  ' $date',
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey[600],
-                  ),
-                ),
-              ],
-            ),
           ),
         ),
       ),

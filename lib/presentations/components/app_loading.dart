@@ -6,16 +6,17 @@ class AppLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      height: 30,
-      child: Center(
-        child: JumpingDots(
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: const [
+        JumpingDots(
           color: Colors.yellow,
           radius: 10,
           numberOfDots: 3,
+          innerPadding: 5,
           animationDuration: Duration(milliseconds: 200),
         ),
-      ),
+      ],
     );
   }
 }
