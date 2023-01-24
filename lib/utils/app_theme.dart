@@ -21,9 +21,9 @@ class AppTheme {
       ),
       iconTheme: const IconThemeData(
         color: Colors.black,
+        size: 24,
       ),
       indicatorColor: Colors.red,
-      // useMaterial3: true,
       shadowColor: Colors.grey[300],
       colorScheme: ColorScheme.light(
         brightness: Brightness.light,

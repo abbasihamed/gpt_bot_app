@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:talk_with_bot/data/send_question.dart';
 import 'package:talk_with_bot/entity/errors.dart';
-import 'package:talk_with_bot/entity/qanda.dart';
+import 'package:talk_with_bot/entity/gpt.dart';
 import 'package:talk_with_bot/injection.dart';
 import 'package:talk_with_bot/utils/data_state.dart';
 import 'package:talk_with_bot/utils/mapper.dart';
@@ -9,15 +9,15 @@ import 'package:talk_with_bot/utils/mapper.dart';
 class QuestionController extends ChangeNotifier {
   final question = getIt.get<SendQuestion>();
 
-  final List<QandA> _qAndALists = [];
+  final List<Gpt> _qAndALists = [];
   bool _isLoading = false;
   Error? _errorData;
 
-  List<QandA> get qAndALists => _qAndALists;
+  List<Gpt> get qAndALists => _qAndALists;
   bool get isLoading => _isLoading;
   Error get errorData => _errorData!;
 
-  setData(QandA value) {
+  setData(Gpt value) {
     _qAndALists.add(value);
     notifyListeners();
   }

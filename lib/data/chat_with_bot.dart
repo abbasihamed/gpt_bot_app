@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:http/http.dart' as http;
 import 'package:talk_with_bot/models/gpt_models.dart';
 import 'package:talk_with_bot/utils/const.dart';
 import 'package:talk_with_bot/utils/data_state.dart';
 
-import 'package:http/http.dart' as http;
-
-class SendQuestion {
-  Future<DataState> sendQuestion(String value) async {
+class ChatBot {
+  Future<DataState> sendData({required String text}) async {
     try {
       var response = await http.post(
         Uri.parse('https://api.openai.com/v1/completions'),
@@ -18,8 +17,13 @@ class SendQuestion {
         },
         body: jsonEncode({
           "model": "text-davinci-003",
-          "prompt": value,
-          "max_tokens": 100,
+          "prompt": text,
+          "temperature": 0.9,
+          "max_tokens": 150,
+          "top_p": 1,
+          "frequency_penalty": 0.0,
+          "presence_penalty": 0.6,
+          "stop": [" Human:", " AI:"]
         }),
       );
       if (response.statusCode == 200) {

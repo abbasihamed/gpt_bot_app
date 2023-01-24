@@ -3,12 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:talk_with_bot/presentations/components/message_card.dart';
-import 'package:talk_with_bot/presentations/provider/chat_controller.dart';
+import 'package:talk_with_bot/presentations/provider/question_controller.dart';
 import 'package:talk_with_bot/utils/mediaquery.dart';
 import 'package:talk_with_bot/utils/theme.dart';
 
-class ChatScreen extends HookWidget {
-  const ChatScreen({super.key});
+class QuestionScreen extends HookWidget {
+  const QuestionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class ChatScreen extends HookWidget {
       appBar: AppBar(
         title: const Text('Bot'),
       ),
-      body: Consumer<ChatController>(
+      body: Consumer<QuestionController>(
         builder: (context, controller, child) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -32,21 +32,21 @@ class ChatScreen extends HookWidget {
                   child: ListView.builder(
                     controller: scrollController,
                     itemCount: controller.isLoading
-                        ? controller.messagesList.length + 1
-                        : controller.messagesList.length,
+                        ? controller.qAndALists.length + 1
+                        : controller.qAndALists.length,
                     itemBuilder: (context, index) {
                       if (controller.isLoading &&
-                          controller.messagesList.length == index) {
+                          controller.qAndALists.length == index) {
                         return const MessagesCard(
                           isLoading: true,
                           sender: 'bot',
                         );
                       }
                       return MessagesCard(
-                        sender: controller.messagesList[index].sender,
-                        message: controller.messagesList[index].message
+                        sender: controller.qAndALists[index].sender,
+                        message: controller.qAndALists[index].message
                             .replaceAll('\n', ''),
-                        date: Jiffy(controller.messagesList[index].dateTime).jm,
+                        date: Jiffy(controller.qAndALists[index].dateTime).jm,
                       );
                     },
                   ),
@@ -86,8 +86,8 @@ class ChatScreen extends HookWidget {
                 onTap: () {
                   if (textController.text.isNotEmpty) {
                     context
-                        .read<ChatController>()
-                        .sendMessage(textController.text);
+                        .read<QuestionController>()
+                        .sendData(textController.text);
                     scrollToEnd(scrollController);
                     textController.clear();
                   }

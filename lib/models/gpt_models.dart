@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-QandAModels qandAModelsFromJson(String str) =>
-    QandAModels.fromJson(json.decode(str));
+GptModels gptModelsFromJson(String str) => GptModels.fromJson(json.decode(str));
 
-String qandAModelsToJson(QandAModels data) => json.encode(data.toJson());
+String gptModelsToJson(GptModels data) => json.encode(data.toJson());
 
-class QandAModels {
-  QandAModels({
+class GptModels {
+  GptModels({
     this.id,
     this.object,
     this.created,
@@ -22,7 +21,7 @@ class QandAModels {
   List<Choice>? choices;
   Usage? usage;
 
-  factory QandAModels.fromJson(Map<String, dynamic> json) => QandAModels(
+  factory GptModels.fromJson(Map<String, dynamic> json) => GptModels(
         id: json["id"],
         object: json["object"],
         created: json["created"],
