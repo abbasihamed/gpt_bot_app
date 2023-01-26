@@ -40,6 +40,16 @@ class AppTheme {
         ),
       ),
       fontFamily: 'Roboto',
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: Colors.amber[200]!,
+        actionTextColor: Colors.black,
+        contentTextStyle: const TextStyle(
+          fontSize: 16,
+          letterSpacing: 1.2,
+          color: Colors.black,
+        ),
+        elevation: 2,
+      ),
     );
   }
 
@@ -82,6 +92,16 @@ class AppTheme {
         ),
       ),
       fontFamily: 'Roboto',
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: Colors.amber[900]!,
+        actionTextColor: Colors.white,
+        contentTextStyle: const TextStyle(
+          fontSize: 16,
+          letterSpacing: 1.2,
+          color: Colors.white
+        ),
+        elevation: 2,
+      ),
     );
   }
 }

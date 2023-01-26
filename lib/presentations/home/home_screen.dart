@@ -5,6 +5,7 @@ import 'package:talk_with_bot/presentations/chat/chat_screen.dart';
 import 'package:talk_with_bot/presentations/question/question_screen.dart';
 import 'package:talk_with_bot/presentations/components/home_items.dart';
 import 'package:talk_with_bot/utils/app_theme.dart';
+import 'package:talk_with_bot/utils/internet_connetcion.dart';
 import 'package:talk_with_bot/utils/theme.dart';
 import 'package:talk_with_bot/utils/theme_controller.dart';
 
@@ -13,6 +14,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getIt.get<InternetConnection>().checker();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bot'),
