@@ -1,3 +1,3 @@
-const String apiKey = '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';
+const String apiKey = 'your apiKey';
 
 DateTime dateTime = DateTime.now();

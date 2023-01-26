@@ -75,7 +75,7 @@ class ChatScreen extends HookWidget {
                     maxLines: 5,
                     minLines: 1,
                     decoration: const InputDecoration(
-                      hintText: 'Question...',
+                      hintText: 'Message...',
                     ),
                   ),
                 ),
