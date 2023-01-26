@@ -1,7 +1,12 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:talk_with_bot/injection.dart';
 import 'package:talk_with_bot/presentations/chat/chat_screen.dart';
 import 'package:talk_with_bot/presentations/question/question_screen.dart';
 import 'package:talk_with_bot/presentations/components/home_items.dart';
+import 'package:talk_with_bot/utils/app_theme.dart';
+import 'package:talk_with_bot/utils/theme.dart';
+import 'package:talk_with_bot/utils/theme_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,9 +16,22 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bot'),
-        leading: const Icon(
-          Icons.light_mode,
-          color: Colors.yellow,
+        leading: ThemeSwitcher.withTheme(
+          builder: (context, switcher, theme) {
+            return IconButton(
+              onPressed: () {
+                switcher.changeTheme(
+                  theme: theme.brightness == Brightness.light
+                      ? AppTheme.darkTheme
+                      : AppTheme.lightTheme,
+                );
+                getIt.get<ThemeController>().setTheme(theme.brightness);
+              },
+              icon: theme.brightness == Brightness.light
+                  ? const Icon(Icons.light_mode)
+                  : const Icon(Icons.dark_mode),
+            );
+          },
         ),
       ),
       body: Column(
@@ -23,7 +41,7 @@ class HomeScreen extends StatelessWidget {
             height: 50,
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            color: Colors.amber[200],
+            color: theme(context).colorScheme.onSecondary,
             child: const Text(
               'No history will be saved',
               style: TextStyle(wordSpacing: 1.2),
