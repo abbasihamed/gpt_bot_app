@@ -16,7 +16,6 @@ void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
   final theme = await getIt.get<ThemeController>().getTheme();
-  print(theme);
   HttpOverrides.global = MyHttpOverrides();
   runApp(
     DevicePreview(
