@@ -2,7 +2,7 @@
     package="com.example.talk_with_bot">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="talk_with_bot"
+        android:label="TalkWithBot"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
