@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:talk_with_bot/presentations/components/app_loading.dart';
 import 'package:talk_with_bot/utils/theme.dart';
 
@@ -78,7 +79,9 @@ class MessagesCard extends StatelessWidget {
               SizedBox(
                 width: 50,
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: message));
+                  },
                   icon: const Icon(
                     Icons.copy,
                     size: 20,
