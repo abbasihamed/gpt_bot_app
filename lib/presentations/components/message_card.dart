@@ -56,10 +56,7 @@ class MessagesCard extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 '$message',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
+                                style: theme(context).textTheme.bodyMedium,
                               ),
                             ),
                             Text(
