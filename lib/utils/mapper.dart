@@ -4,11 +4,11 @@ import 'package:talk_with_bot/utils/const.dart';
 
 class QandAMapper {
   static transferToMAp(String sender, dynamic data) {
-    if (data is GptModels) {
+    if (data is ChatModel) {
       return Gpt(
           dateTime: dateTime,
           sender: sender,
-          message: data.choices![0].text.toString());
+          message: data.choices![0].message!.content.toString());
     }
     if (data is String) {
       return Gpt(dateTime: dateTime, sender: sender, message: data);

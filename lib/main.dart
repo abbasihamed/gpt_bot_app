@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:talk_with_bot/injection.dart';
 import 'package:talk_with_bot/presentations/provider/chat_controller.dart';
 import 'package:talk_with_bot/presentations/home/home_screen.dart';
-import 'package:talk_with_bot/presentations/provider/question_controller.dart';
 import 'package:talk_with_bot/utils/const.dart';
 import 'package:talk_with_bot/utils/get_certification.dart';
 import 'package:talk_with_bot/utils/theme_controller.dart';
@@ -40,7 +39,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => QuestionController()),
         ChangeNotifierProvider(create: (_) => ChatController()),
       ],
       child: ThemeProvider(

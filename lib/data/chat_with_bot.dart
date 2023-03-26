@@ -10,24 +10,25 @@ class ChatBot {
   Future<DataState> sendData({required String text}) async {
     try {
       var response = await http.post(
-        Uri.parse('https://api.openai.com/v1/completions'),
+        Uri.parse('https://api.openai.com/v1/chat/completions'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $apiKey'
         },
         body: jsonEncode({
-          "model": "text-davinci-003",
-          "prompt": text,
-          "temperature": 0.9,
-          "max_tokens": 150,
-          "top_p": 1,
-          "frequency_penalty": 0.0,
-          "presence_penalty": 0.6,
-          "stop": [" Human:", " AI:"]
+          "model": "gpt-3.5-turbo",
+          "messages": [
+            {
+              "role": "user",
+              "content": text,
+            }
+          ]
         }),
       );
       if (response.statusCode == 200) {
-        return Success(data: gptModelsFromJson(response.body), code: 200);
+        return Success(
+            data: chatModelFromJson(utf8.decode(response.bodyBytes)),
+            code: 200);
       }
       if (response.statusCode == 404) {
         return Failed(code: 104, data: 'Data not found');

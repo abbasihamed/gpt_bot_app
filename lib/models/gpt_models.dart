@@ -1,98 +1,113 @@
+// To parse this JSON data, do
+//
+//     final chatModel = chatModelFromJson(jsonString);
+
 import 'dart:convert';
 
-GptModels gptModelsFromJson(String str) => GptModels.fromJson(json.decode(str));
+ChatModel chatModelFromJson(String str) => ChatModel.fromJson(json.decode(str));
 
-String gptModelsToJson(GptModels data) => json.encode(data.toJson());
+String chatModelToJson(ChatModel data) => json.encode(data.toJson());
 
-class GptModels {
-  GptModels({
-    this.id,
-    this.object,
-    this.created,
-    this.model,
-    this.choices,
-    this.usage,
-  });
+class ChatModel {
+    ChatModel({
+        this.id,
+        this.object,
+        this.created,
+        this.model,
+        this.usage,
+        this.choices,
+    });
 
-  String? id;
-  String? object;
-  int? created;
-  String? model;
-  List<Choice>? choices;
-  Usage? usage;
+    final String? id;
+    final String? object;
+    final int? created;
+    final String? model;
+    final Usage? usage;
+    final List<Choice>? choices;
 
-  factory GptModels.fromJson(Map<String, dynamic> json) => GptModels(
+    factory ChatModel.fromJson(Map<String, dynamic> json) => ChatModel(
         id: json["id"],
         object: json["object"],
         created: json["created"],
         model: json["model"],
-        choices: json["choices"] == null
-            ? []
-            : List<Choice>.from(
-                json["choices"]!.map((x) => Choice.fromJson(x))),
         usage: json["usage"] == null ? null : Usage.fromJson(json["usage"]),
-      );
+        choices: json["choices"] == null ? [] : List<Choice>.from(json["choices"]!.map((x) => Choice.fromJson(x))),
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "id": id,
         "object": object,
         "created": created,
         "model": model,
-        "choices": choices == null
-            ? []
-            : List<dynamic>.from(choices!.map((x) => x.toJson())),
         "usage": usage?.toJson(),
-      };
+        "choices": choices == null ? [] : List<dynamic>.from(choices!.map((x) => x.toJson())),
+    };
 }
 
 class Choice {
-  Choice({
-    this.text,
-    this.index,
-    this.logprobs,
-    this.finishReason,
-  });
+    Choice({
+        this.message,
+        this.finishReason,
+        this.index,
+    });
 
-  String? text;
-  int? index;
-  dynamic logprobs;
-  String? finishReason;
+    final Message? message;
+    final String? finishReason;
+    final int? index;
 
-  factory Choice.fromJson(Map<String, dynamic> json) => Choice(
-        text: json["text"],
-        index: json["index"],
-        logprobs: json["logprobs"],
+    factory Choice.fromJson(Map<String, dynamic> json) => Choice(
+        message: json["message"] == null ? null : Message.fromJson(json["message"]),
         finishReason: json["finish_reason"],
-      );
+        index: json["index"],
+    );
 
-  Map<String, dynamic> toJson() => {
-        "text": text,
-        "index": index,
-        "logprobs": logprobs,
+    Map<String, dynamic> toJson() => {
+        "message": message?.toJson(),
         "finish_reason": finishReason,
-      };
+        "index": index,
+    };
+}
+
+class Message {
+    Message({
+        this.role,
+        this.content,
+    });
+
+    final String? role;
+    final String? content;
+
+    factory Message.fromJson(Map<String, dynamic> json) => Message(
+        role: json["role"],
+        content: json["content"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "role": role,
+        "content": content,
+    };
 }
 
 class Usage {
-  Usage({
-    this.promptTokens,
-    this.completionTokens,
-    this.totalTokens,
-  });
+    Usage({
+        this.promptTokens,
+        this.completionTokens,
+        this.totalTokens,
+    });
 
-  int? promptTokens;
-  int? completionTokens;
-  int? totalTokens;
+    final int? promptTokens;
+    final int? completionTokens;
+    final int? totalTokens;
 
-  factory Usage.fromJson(Map<String, dynamic> json) => Usage(
+    factory Usage.fromJson(Map<String, dynamic> json) => Usage(
         promptTokens: json["prompt_tokens"],
         completionTokens: json["completion_tokens"],
         totalTokens: json["total_tokens"],
-      );
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "prompt_tokens": promptTokens,
         "completion_tokens": completionTokens,
         "total_tokens": totalTokens,
-      };
+    };
 }

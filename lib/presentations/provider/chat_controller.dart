@@ -3,6 +3,7 @@ import 'package:talk_with_bot/data/chat_with_bot.dart';
 import 'package:talk_with_bot/entity/errors.dart';
 import 'package:talk_with_bot/entity/gpt.dart';
 import 'package:talk_with_bot/injection.dart';
+import 'package:talk_with_bot/models/gpt_models.dart';
 import 'package:talk_with_bot/utils/data_state.dart';
 import 'package:talk_with_bot/utils/mapper.dart';
 
@@ -43,7 +44,6 @@ class ChatController extends ChangeNotifier {
     }
     if (response is Failed) {
       Error error = Error(code: response.code, message: response.data);
-      print(error.message);
       setErrorData(error);
     }
     setLoading(false);
