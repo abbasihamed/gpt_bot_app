@@ -104,7 +104,7 @@ class HomeScreen extends HookWidget {
                       maxLines: 5,
                       minLines: 1,
                       decoration: const InputDecoration(
-                        hintText: 'Message...',
+                        hintText: 'Message ...',
                       ),
                     ),
                   ),
@@ -117,7 +117,7 @@ class HomeScreen extends HookWidget {
                       context
                           .read<ChatController>()
                           .sendMessage(textController.text);
-                      // scrollToEnd(scrollController);
+                      scrollToEnd(scrollController);
                       textController.clear();
                     }
                   },
@@ -137,17 +137,9 @@ class HomeScreen extends HookWidget {
       ),
     );
   }
+
+  scrollToEnd(ScrollController controller) {
+    controller.animateTo(controller.position.maxScrollExtent * 2,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+  }
 }
-
-
-          // Container(
-          //   width: double.infinity,
-          //   height: 50,
-          //   alignment: Alignment.center,
-          //   padding: const EdgeInsets.symmetric(horizontal: 8),
-          //   color: theme(context).colorScheme.onSecondary,
-          //   child: const Text(
-          //     'No history will be saved',
-          //     style: TextStyle(wordSpacing: 1.2),
-          //   ),
-          // ),
