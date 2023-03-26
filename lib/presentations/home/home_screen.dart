@@ -21,6 +21,7 @@ class HomeScreen extends HookWidget {
     final scrollController = useScrollController();
     // getIt.get<InternetConnection>().checker();
     return Scaffold(
+      backgroundColor: theme(context).backgroundColor,
       appBar: AppBar(
         title: const Text('Bot'),
         actions: [

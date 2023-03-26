@@ -61,11 +61,7 @@ class MessagesCard extends StatelessWidget {
                             ),
                             Text(
                               ' $date',
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey[600],
-                              ),
+                              style: theme(context).textTheme.labelSmall,
                             )
                           ],
                         ),
