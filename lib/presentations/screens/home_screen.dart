@@ -5,25 +5,37 @@ import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:talk_with_bot/injection.dart';
 import 'package:talk_with_bot/presentations/components/message_card.dart';
-import 'package:talk_with_bot/presentations/provider/chat_controller.dart';
+import 'package:talk_with_bot/presentations/logic/chat_controller.dart';
+import 'package:talk_with_bot/presentations/logic/theme_controller.dart';
+import 'package:talk_with_bot/presentations/screens/setting.dart';
 import 'package:talk_with_bot/utils/app_theme.dart';
 import 'package:talk_with_bot/utils/internet_connetcion.dart';
 import 'package:talk_with_bot/utils/mediaquery.dart';
-import 'package:talk_with_bot/utils/theme.dart';
-import 'package:talk_with_bot/utils/theme_controller.dart';
 
 class HomeScreen extends HookWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final textController = useTextEditingController();
     final scrollController = useScrollController();
     // getIt.get<InternetConnection>().checker();
     return Scaffold(
-      backgroundColor: theme(context).backgroundColor,
+      backgroundColor: theme.backgroundColor,
       appBar: AppBar(
         title: const Text('Bot'),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SettingScreen(),
+              ),
+            );
+          },
+          icon: const Icon(Icons.settings),
+        ),
         actions: [
           ThemeSwitcher.withTheme(
             builder: (context, switcher, theme) {
@@ -34,7 +46,11 @@ class HomeScreen extends HookWidget {
                         ? AppTheme.darkTheme
                         : AppTheme.lightTheme,
                   );
-                  getIt.get<ThemeController>().setTheme(theme.brightness);
+
+                  getIt.get<ThemeDataController>().addData(
+                        key: 'theme',
+                        value: theme.brightness,
+                      );
                 },
                 icon: theme.brightness == Brightness.light
                     ? const Icon(Icons.light_mode)
@@ -94,7 +110,7 @@ class HomeScreen extends HookWidget {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: theme(context).cardColor,
+                      color: theme.cardColor,
                       borderRadius: BorderRadius.circular(22),
                     ),
                     child: TextFormField(
@@ -123,10 +139,10 @@ class HomeScreen extends HookWidget {
                   },
                   child: CircleAvatar(
                     maxRadius: 22,
-                    backgroundColor: theme(context).cardColor,
+                    backgroundColor: theme.cardColor,
                     child: Icon(
                       Icons.send,
-                      color: theme(context).iconTheme.color,
+                      color: theme.iconTheme.color,
                     ),
                   ),
                 ),

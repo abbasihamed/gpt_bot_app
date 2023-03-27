@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:talk_with_bot/presentations/components/app_loading.dart';
-import 'package:talk_with_bot/utils/theme.dart';
 
 class MessagesCard extends StatelessWidget {
   final String? message;
@@ -18,6 +17,7 @@ class MessagesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
       child: Align(
@@ -42,8 +42,8 @@ class MessagesCard extends StatelessWidget {
                       ),
                 elevation: 2,
                 color: sender == 'bot'
-                    ? theme(context).colorScheme.onSecondaryContainer
-                    : theme(context).colorScheme.onPrimaryContainer,
+                    ? theme.colorScheme.onSecondaryContainer
+                    : theme.colorScheme.onPrimaryContainer,
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: isLoading
@@ -56,12 +56,12 @@ class MessagesCard extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 '$message',
-                                style: theme(context).textTheme.bodyMedium,
+                                style: theme.textTheme.bodyMedium,
                               ),
                             ),
                             Text(
                               ' $date',
-                              style: theme(context).textTheme.labelSmall,
+                              style: theme.textTheme.labelSmall,
                             )
                           ],
                         ),

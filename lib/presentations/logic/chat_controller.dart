@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:talk_with_bot/data/chat_with_bot.dart';
+import 'package:talk_with_bot/data/remote/chat_with_bot.dart';
 import 'package:talk_with_bot/entity/errors.dart';
 import 'package:talk_with_bot/entity/gpt.dart';
 import 'package:talk_with_bot/injection.dart';
-import 'package:talk_with_bot/models/gpt_models.dart';
 import 'package:talk_with_bot/utils/data_state.dart';
 import 'package:talk_with_bot/utils/mapper.dart';
 

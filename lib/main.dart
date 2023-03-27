@@ -4,54 +4,52 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:talk_with_bot/data/local/hive_storage_imp.dart';
 import 'package:talk_with_bot/injection.dart';
-import 'package:talk_with_bot/presentations/provider/chat_controller.dart';
-import 'package:talk_with_bot/presentations/home/home_screen.dart';
+import 'package:talk_with_bot/presentations/logic/chat_controller.dart';
+import 'package:talk_with_bot/presentations/screens/home_screen.dart';
+import 'package:talk_with_bot/presentations/logic/theme_controller.dart';
 import 'package:talk_with_bot/utils/const.dart';
 import 'package:talk_with_bot/utils/get_certification.dart';
-import 'package:talk_with_bot/utils/theme_controller.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
-  final theme = await getIt.get<ThemeController>().getTheme();
   HttpOverrides.global = MyHttpOverrides();
+  await getIt.get<HiveStorageImp>().initDb();
+
   runApp(
     DevicePreview(
       enabled: false,
       builder: (context) {
-        return MyApp(
-          initTheme: theme,
-        );
+        return const MyApp();
       },
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final ThemeData initTheme;
-  const MyApp({
-    super.key,
-    required this.initTheme,
-  });
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final theme = getIt.get<ThemeDataController>().getData();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ChatController()),
       ],
       child: ThemeProvider(
-          initTheme: initTheme,
-          builder: (context, theme) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              scaffoldMessengerKey: snackBar,
-              title: "ChatBot",
-              theme: theme,
-              home: const HomeScreen(),
-            );
-          }),
+        initTheme: theme,
+        builder: (context, theme) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            scaffoldMessengerKey: snackBar,
+            title: "ChatBot",
+            theme: theme,
+            home: const HomeScreen(),
+          );
+        },
+      ),
     );
   }
 }

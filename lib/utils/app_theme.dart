@@ -4,6 +4,7 @@ class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
       brightness: Brightness.light,
+      scaffoldBackgroundColor: const Color(0xFFF2F2F3),
       primaryColor: const Color(0xFF042FFC),
       backgroundColor: const Color(0xFFF2F2F3),
       cardColor: const Color(0xFFB7BDD7),
@@ -33,6 +34,9 @@ class AppTheme {
           fontFamily: 'Roboto',
         ),
       ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: Colors.transparent,
+      ),
       textTheme: const TextTheme(
         bodyMedium: TextStyle(
           fontFamily: 'Roboto',
@@ -53,6 +57,7 @@ class AppTheme {
   static ThemeData get darkTheme {
     return ThemeData(
       brightness: Brightness.dark,
+      scaffoldBackgroundColor: const Color(0xFF1C1C24),
       primaryColor: const Color(0xFF18171D),
       backgroundColor: const Color(0xFF1C1C24),
       colorScheme: const ColorScheme.dark(
@@ -81,6 +86,9 @@ class AppTheme {
           color: Color(0xFF7C7B7F),
           fontFamily: 'Roboto',
         ),
+      ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: Colors.transparent,
       ),
       textTheme: const TextTheme(
         bodyMedium: TextStyle(
