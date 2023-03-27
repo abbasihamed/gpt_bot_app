@@ -7,13 +7,17 @@ import 'package:talk_with_bot/utils/const.dart';
 import 'package:talk_with_bot/utils/data_state.dart';
 
 class ChatBot {
-  Future<DataState> sendData({required String text}) async {
+  Future<DataState> sendData({required String text, String? key}) async {
+    print({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${key ?? apiKey}'
+    });
     try {
       var response = await http.post(
         Uri.parse('https://api.openai.com/v1/chat/completions'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $apiKey'
+          'Authorization': 'Bearer ${key ?? apiKey}'
         },
         body: jsonEncode({
           "model": "gpt-3.5-turbo",

@@ -5,6 +5,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:talk_with_bot/injection.dart';
 import 'package:talk_with_bot/presentations/components/message_card.dart';
+import 'package:talk_with_bot/presentations/logic/api_key_controller.dart';
 import 'package:talk_with_bot/presentations/logic/chat_controller.dart';
 import 'package:talk_with_bot/presentations/logic/theme_controller.dart';
 import 'package:talk_with_bot/presentations/screens/setting.dart';
@@ -20,6 +21,7 @@ class HomeScreen extends HookWidget {
     final theme = Theme.of(context);
     final textController = useTextEditingController();
     final scrollController = useScrollController();
+    final key = Provider.of<KeyController>(context, listen: false);
     // getIt.get<InternetConnection>().checker();
     return Scaffold(
       backgroundColor: theme.backgroundColor,
@@ -132,7 +134,7 @@ class HomeScreen extends HookWidget {
                     if (textController.text.isNotEmpty) {
                       context
                           .read<ChatController>()
-                          .sendMessage(textController.text);
+                          .sendMessage(textController.text, key: key);
                       scrollToEnd(scrollController);
                       textController.clear();
                     }

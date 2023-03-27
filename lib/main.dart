@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:talk_with_bot/data/local/hive_storage_imp.dart';
 import 'package:talk_with_bot/injection.dart';
+import 'package:talk_with_bot/presentations/logic/api_key_controller.dart';
 import 'package:talk_with_bot/presentations/logic/chat_controller.dart';
 import 'package:talk_with_bot/presentations/screens/home_screen.dart';
 import 'package:talk_with_bot/presentations/logic/theme_controller.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ChatController()),
+        ChangeNotifierProvider(create: (_) => KeyController()),
       ],
       child: ThemeProvider(
         initTheme: theme,
