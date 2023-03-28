@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 import 'package:talk_with_bot/presentations/logic/api_key_controller.dart';
 import 'package:talk_with_bot/utils/mediaquery.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingScreen extends HookWidget {
   const SettingScreen({super.key});
@@ -86,7 +87,10 @@ class SettingScreen extends HookWidget {
                       style: theme.textTheme.labelSmall!.copyWith(fontSize: 16),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await launchUrl(
+                           Uri.parse( 'https://platform.openai.com/account/api-keys'));
+                      },
                       child: const Text(
                         'https://platform.openai.com/account/api-keys',
                       ),
