@@ -137,6 +137,7 @@ class HomeScreen extends HookWidget {
                           .sendMessage(textController.text, key: key);
                       scrollToEnd(scrollController);
                       textController.clear();
+                      FocusScope.of(context).unfocus();
                     }
                   },
                   child: CircleAvatar(

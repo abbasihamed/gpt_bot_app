@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             scaffoldMessengerKey: snackBar,
-            title: "ChatBot",
+            title: "ChatBot", 
             theme: theme,
             home: const HomeScreen(),
           );

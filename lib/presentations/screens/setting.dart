@@ -53,7 +53,7 @@ class SettingScreen extends HookWidget {
             height: 250,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              color: theme.primaryColor,
+              color: theme.cardColor,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(22),
                 topRight: Radius.circular(22),
@@ -88,11 +88,11 @@ class SettingScreen extends HookWidget {
                     ),
                     TextButton(
                       onPressed: () async {
-                        await launchUrl(
-                           Uri.parse( 'https://platform.openai.com/account/api-keys'));
+                        await launchUrl(Uri.parse(
+                            'https://platform.openai.com/account/api-keys'));
                       },
                       child: const Text(
-                        'https://platform.openai.com/account/api-keys',
+                        'Site',
                       ),
                     )
                   ],
