@@ -7,14 +7,12 @@ class ThemeDataController {
   final _storageImp = getIt.get<HiveStorageImp>();
 
   addData({required String key, required Brightness value}) {
-    final callBack =
+
         _storageImp.addData(key, value == Brightness.light ? 'dark' : 'light');
-    print(callBack);
   }
 
   ThemeData getData() {
     final theme = _storageImp.getData('theme');
-    print(theme);
     if (theme == null) {
       return AppTheme.lightTheme;
     }

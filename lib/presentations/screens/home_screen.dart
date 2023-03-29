@@ -10,7 +10,6 @@ import 'package:talk_with_bot/presentations/logic/chat_controller.dart';
 import 'package:talk_with_bot/presentations/logic/theme_controller.dart';
 import 'package:talk_with_bot/presentations/screens/setting.dart';
 import 'package:talk_with_bot/utils/app_theme.dart';
-import 'package:talk_with_bot/utils/internet_connetcion.dart';
 import 'package:talk_with_bot/utils/mediaquery.dart';
 
 class HomeScreen extends HookWidget {

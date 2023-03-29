@@ -14,9 +14,8 @@ class KeyController extends ChangeNotifier {
   }
 
   addKey({required String value}) {
-    final callBack = _storageImp.addData('secretKey', value);
+_storageImp.addData('secretKey', value);
     setCurrentKey(value);
-    print(callBack);
   }
 
   setCurrentKey(String? value) {
@@ -30,7 +29,6 @@ class KeyController extends ChangeNotifier {
 
   getkey() {
     final value = _storageImp.getData('secretKey');
-    print(value);
     setCurrentKey(value);
   }
 }
