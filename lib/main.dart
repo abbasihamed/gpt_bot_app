@@ -12,16 +12,13 @@ import 'package:talk_with_bot/presentations/screens/home_screen.dart';
 import 'package:talk_with_bot/presentations/logic/theme_controller.dart';
 import 'package:talk_with_bot/utils/const.dart';
 import 'package:talk_with_bot/utils/get_certification.dart';
-import 'package:url_strategy/url_strategy.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
-  await dotenv.load(fileName: ".env");
   HttpOverrides.global = MyHttpOverrides();
   await getIt.get<HiveStorageImp>().initDb();
-  setPathUrlStrategy();
+
   runApp(
     DevicePreview(
       enabled: false,

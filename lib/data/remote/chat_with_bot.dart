@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:talk_with_bot/models/gpt_models.dart';
+import 'package:talk_with_bot/utils/const.dart';
 import 'package:talk_with_bot/utils/data_state.dart';
 
 class ChatBot {
@@ -13,7 +13,7 @@ class ChatBot {
         Uri.parse('https://api.openai.com/v1/chat/completions'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${key ?? dotenv.env['API_KEY']}'
+          'Authorization': 'Bearer ${key ?? apiKey}'
         },
         body: jsonEncode({
           "model": "gpt-3.5-turbo",
