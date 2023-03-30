@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const String apiKey = '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';
+const String apiKey = '';
 
 DateTime dateTime = DateTime.now();
 
