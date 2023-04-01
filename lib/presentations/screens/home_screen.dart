@@ -8,6 +8,7 @@ import 'package:talk_with_bot/presentations/components/message_card.dart';
 import 'package:talk_with_bot/presentations/logic/api_key_controller.dart';
 import 'package:talk_with_bot/presentations/logic/chat_controller.dart';
 import 'package:talk_with_bot/presentations/logic/theme_controller.dart';
+import 'package:talk_with_bot/presentations/logic/voice_to_text_controller.dart';
 import 'package:talk_with_bot/presentations/screens/setting.dart';
 import 'package:talk_with_bot/utils/app_theme.dart';
 import 'package:talk_with_bot/utils/mediaquery.dart';
@@ -17,6 +18,7 @@ class HomeScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isVoice = useState(false);
     final theme = Theme.of(context);
     final textController = useTextEditingController();
     final scrollController = useScrollController();
@@ -62,8 +64,8 @@ class HomeScreen extends HookWidget {
         ],
         elevation: 0,
       ),
-      body: Consumer<ChatController>(
-        builder: (context, controller, child) {
+      body: Consumer2<ChatController, VoiceToTextController>(
+        builder: (context, controller, voice, child) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -96,62 +98,70 @@ class HomeScreen extends HookWidget {
                   ),
                 ),
               ),
-              child!,
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: theme.cardColor,
+                            borderRadius: BorderRadius.circular(22),
+                          ),
+                          child: TextFormField(
+                            controller: textController,
+                            keyboardType: TextInputType.multiline,
+                            textInputAction: TextInputAction.newline,
+                            maxLines: 5,
+                            minLines: 1,
+                            decoration: const InputDecoration(
+                              hintText: 'Message ...',
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: kWidth(context) * 0.02),
+                      InkWell(
+                        overlayColor:
+                            MaterialStateProperty.all(Colors.transparent),
+                        onTap: () {
+                          if (textController.text.isNotEmpty) {
+                            context
+                                .read<ChatController>()
+                                .sendMessage(textController.text, key: key);
+                            scrollToEnd(scrollController);
+                            textController.clear();
+                            FocusScope.of(context).unfocus();
+                          }
+                          if (textController.text.isEmpty) {
+                            isVoice.value = !isVoice.value;
+                          }
+                        },
+                        onLongPress: () {
+                          if (isVoice.value) {
+                            voice.startRecorde();
+                          }
+                        },
+                        child: CircleAvatar(
+                          maxRadius: 22,
+                          backgroundColor: theme.cardColor,
+                          child: Icon(
+                            isVoice.value ? Icons.mic : Icons.send,
+                            color: theme.iconTheme.color,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           );
         },
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: SizedBox(
-            width: double.infinity,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: theme.cardColor,
-                      borderRadius: BorderRadius.circular(22),
-                    ),
-                    child: TextFormField(
-                      controller: textController,
-                      keyboardType: TextInputType.multiline,
-                      textInputAction: TextInputAction.newline,
-                      maxLines: 5,
-                      minLines: 1,
-                      decoration: const InputDecoration(
-                        hintText: 'Message ...',
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: kWidth(context) * 0.02),
-                InkWell(
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
-                  onTap: () {
-                    if (textController.text.isNotEmpty) {
-                      context
-                          .read<ChatController>()
-                          .sendMessage(textController.text, key: key);
-                      scrollToEnd(scrollController);
-                      textController.clear();
-                      FocusScope.of(context).unfocus();
-                    }
-                  },
-                  child: CircleAvatar(
-                    maxRadius: 22,
-                    backgroundColor: theme.cardColor,
-                    child: Icon(
-                      Icons.send,
-                      color: theme.iconTheme.color,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
