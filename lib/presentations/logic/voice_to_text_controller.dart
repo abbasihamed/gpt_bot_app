@@ -4,22 +4,28 @@ import 'package:speech_to_text/speech_to_text.dart';
 class VoiceToTextController extends ChangeNotifier {
   final SpeechToText _speechToText = SpeechToText();
 
-  String? _message;
+  bool _isFinal = false;
 
-  String get message => _message ?? '';
+  bool get isFinal => _isFinal;
 
-  setMessage(String value) {
-    _message = value;
+  setMessage(String value, TextEditingController controller) {
+    controller.text = value;
     notifyListeners();
   }
 
-  startRecorde() async {
+  setIsFinal(bool value) {
+    _isFinal = value;
+    notifyListeners();
+  }
+
+  startRecorde(TextEditingController controller) async {
     var init = await _speechToText.initialize();
     if (init) {
       _speechToText.listen(
         localeId: 'en-US',
         onResult: (result) {
-          setMessage(result.recognizedWords);
+          setMessage(result.recognizedWords, controller);
+          setIsFinal(result.finalResult);
           print(result);
         },
       );

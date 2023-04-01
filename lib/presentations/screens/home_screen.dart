@@ -130,9 +130,8 @@ class HomeScreen extends HookWidget {
                             MaterialStateProperty.all(Colors.transparent),
                         onTap: () {
                           if (textController.text.isNotEmpty) {
-                            context
-                                .read<ChatController>()
-                                .sendMessage(textController.text, key: key);
+                            controller.sendMessage(textController.text,
+                                key: key);
                             scrollToEnd(scrollController);
                             textController.clear();
                             FocusScope.of(context).unfocus();
@@ -143,14 +142,16 @@ class HomeScreen extends HookWidget {
                         },
                         onLongPress: () {
                           if (isVoice.value) {
-                            voice.startRecorde();
+                            voice.startRecorde(textController);
                           }
                         },
                         child: CircleAvatar(
                           maxRadius: 22,
                           backgroundColor: theme.cardColor,
                           child: Icon(
-                            isVoice.value ? Icons.mic : Icons.send,
+                            isVoice.value && !voice.isFinal
+                                ? Icons.mic
+                                : Icons.send,
                             color: theme.iconTheme.color,
                           ),
                         ),
