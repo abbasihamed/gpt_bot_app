@@ -154,9 +154,7 @@ class HomeScreen extends HookWidget {
                           maxRadius: 22,
                           backgroundColor: theme.cardColor,
                           child: Icon(
-                            isVoice.value && !voice.isFinal
-                                ? Icons.mic
-                                : Icons.send,
+                            isVoice.value ? Icons.mic : Icons.send,
                             color: theme.iconTheme.color,
                           ),
                         ),
