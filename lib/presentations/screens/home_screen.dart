@@ -126,24 +126,28 @@ class HomeScreen extends HookWidget {
                         ),
                       ),
                       SizedBox(width: kWidth(context) * 0.02),
-                      InkWell(
-                        overlayColor:
-                            MaterialStateProperty.all(Colors.transparent),
+                      GestureDetector(
                         onTap: () {
                           if (textController.text.isNotEmpty) {
                             controller.sendMessage(textController.text,
                                 key: key);
                             scrollToEnd(scrollController);
-                            textController.clear();
                             FocusScope.of(context).unfocus();
                           }
                           if (textController.text.isEmpty) {
                             isVoice.value = !isVoice.value;
                           }
+                          textController.clear();
                         },
                         onLongPress: () {
                           if (isVoice.value) {
                             voice.startRecorde(textController);
+                          }
+                        },
+                        onLongPressUp: () {
+                          if (isVoice.value) {
+                            voice.stopRecorde();
+                            isVoice.value = !isVoice.value;
                           }
                         },
                         child: CircleAvatar(
