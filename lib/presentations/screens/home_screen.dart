@@ -118,8 +118,9 @@ class HomeScreen extends HookWidget {
                             textInputAction: TextInputAction.newline,
                             maxLines: 5,
                             minLines: 1,
-                            decoration: const InputDecoration(
-                              hintText: 'Message ...',
+                            decoration: InputDecoration(
+                              hintText:
+                                  isVoice.value ? 'Speak ...' : 'Message ...',
                             ),
                           ),
                         ),
