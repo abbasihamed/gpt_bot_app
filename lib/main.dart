@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:talk_with_bot/data/local/hive_storage_imp.dart';
@@ -11,6 +12,7 @@ import 'package:talk_with_bot/presentations/logic/chat_controller.dart';
 import 'package:talk_with_bot/presentations/logic/voice_to_text_controller.dart';
 import 'package:talk_with_bot/presentations/screens/home_screen.dart';
 import 'package:talk_with_bot/presentations/logic/theme_controller.dart';
+import 'package:talk_with_bot/presentations/screens/setting.dart';
 import 'package:talk_with_bot/utils/const.dart';
 import 'package:talk_with_bot/utils/get_certification.dart';
 
@@ -50,10 +52,18 @@ class MyApp extends StatelessWidget {
             scaffoldMessengerKey: snackBar,
             title: "ChatBot",
             theme: theme,
-            home: const HomeScreen(),
+            home: getStartPage(),
           );
         },
       ),
     );
+  }
+
+  Widget getStartPage() {
+    if (kIsWeb) {
+      return const SettingScreen();
+    } else {
+      return const HomeScreen();
+    }
   }
 }

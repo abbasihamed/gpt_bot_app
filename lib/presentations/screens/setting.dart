@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 import 'package:talk_with_bot/presentations/logic/api_key_controller.dart';
+import 'package:talk_with_bot/presentations/screens/home_screen.dart';
 import 'package:talk_with_bot/utils/mediaquery.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -109,6 +111,14 @@ class SettingScreen extends HookWidget {
                         onTap: () {
                           value.addKey(value: controller.text);
                           Navigator.pop(context);
+                          if (kIsWeb) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomeScreen(),
+                              ),
+                            );
+                          }
                         },
                         child: Container(
                           width: kWidth(context) * 0.4,
