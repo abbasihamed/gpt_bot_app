@@ -30,10 +30,4 @@ class HiveStorageImp implements HiveStorage {
     var box = Hive.box(_boxName);
     return box.get(key);
   }
-
-  @override
-  updateData() {
-    // TODO: implement updateData
-    throw UnimplementedError();
-  }
 }

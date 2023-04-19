@@ -1,30 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
-import 'package:talk_with_bot/models/gpt_models.dart';
-import 'package:talk_with_bot/utils/const.dart';
+import 'package:talk_with_bot/data/models/gpt_models.dart';
+import 'package:talk_with_bot/data/remote/gpt_api_service.dart';
+import 'package:talk_with_bot/domain/repository/repository.dart';
 import 'package:talk_with_bot/utils/data_state.dart';
 
-class ChatBot {
-  Future<DataState> sendData({required String text, String? key}) async {
+class RepositoryImpl implements Repository {
+  final GptServiceApi _gptServiceApi;
+
+  RepositoryImpl(this._gptServiceApi);
+
+  @override
+  Future<DataState> sendMessage(String message) async {
     try {
-      var response = await http.post(
-        Uri.parse('https://api.openai.com/v1/chat/completions'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${key ?? apiKey}'
-        },
-        body: jsonEncode({
-          "model": "gpt-3.5-turbo",
-          "messages": [
-            {
-              "role": "user",
-              "content": text,
-            }
-          ]
-        }),
-      );
+      var response = await _gptServiceApi.sendMessage(message);
       if (response.statusCode == 200) {
         return Success(
             data: chatModelFromJson(utf8.decode(response.bodyBytes)),

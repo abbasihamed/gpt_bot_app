@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:talk_with_bot/data/remote/chat_with_bot.dart';
-import 'package:talk_with_bot/entity/errors.dart';
-import 'package:talk_with_bot/entity/gpt.dart';
+import 'package:talk_with_bot/data/mapper/message_mapper.dart';
+import 'package:talk_with_bot/data/models/gpt_models.dart' show ChatModel;
+import 'package:talk_with_bot/domain/entities/errors.dart';
+import 'package:talk_with_bot/domain/entities/message.dart';
+import 'package:talk_with_bot/domain/usecase/message_usecase.dart';
 import 'package:talk_with_bot/injection.dart';
 import 'package:talk_with_bot/presentations/logic/api_key_controller.dart';
 import 'package:talk_with_bot/utils/data_state.dart';
-import 'package:talk_with_bot/utils/mapper.dart';
 
 class ChatController extends ChangeNotifier {
-  final chat = getIt.get<ChatBot>();
+  final _messageUsecase = getIt.get<MessageUseCase>();
 
-  final List<Gpt> _messagesList = [];
+  final List<Message> _messagesList = [];
   Error? _errorData;
   bool _isloading = false;
 
-  List<Gpt> get messagesList => _messagesList;
+  List<Message> get messagesList => _messagesList;
   Error get errorData => _errorData!;
   bool get isLoading => _isloading;
 
@@ -23,7 +24,7 @@ class ChatController extends ChangeNotifier {
     notifyListeners();
   }
 
-  setMessage(Gpt value) {
+  setMessage(Message value) {
     _messagesList.add(value);
     notifyListeners();
   }
@@ -33,20 +34,19 @@ class ChatController extends ChangeNotifier {
     notifyListeners();
   }
 
-  sendMessage(String message,{KeyController? key}) async {
-    final mapped = QandAMapper.transferToMAp('user', message);
-    setMessage(mapped);
+  sendMessage(String message, {KeyController? key}) async {
+    setMessage(message.toMessage('user'));
     setLoading(true);
-    var response = await chat.sendData(text: message,key: key!.currentKey);
+    var response = await _messageUsecase.execute(message);
     if (response is Success) {
-      final mapped = QandAMapper.transferToMAp('bot', response.data);
-      setMessage(mapped);
+      setMessage((response.data as ChatModel).toMessage('bot'));
     }
     if (response is Failed) {
-      Error error = Error(code: response.code, message: response.data);
-      setErrorData(error);
+      // ToDo: set error response
     }
     setLoading(false);
     notifyListeners();
   }
 }
+
+

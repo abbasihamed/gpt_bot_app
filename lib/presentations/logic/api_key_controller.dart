@@ -14,7 +14,7 @@ class KeyController extends ChangeNotifier {
   }
 
   addKey({required String value}) {
-_storageImp.addData('secretKey', value);
+    _storageImp.addData('secretKey', value);
     setCurrentKey(value);
   }
 
