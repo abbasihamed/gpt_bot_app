@@ -3,18 +3,18 @@ import 'dart:io';
 
 import 'package:talk_with_bot/data/models/gpt_models.dart';
 import 'package:talk_with_bot/data/remote/gpt_api_service.dart';
-import 'package:talk_with_bot/domain/repository/repository.dart';
+import 'package:talk_with_bot/domain/repository/remote_repository.dart';
 import 'package:talk_with_bot/utils/data_state.dart';
 
-class RepositoryImpl implements Repository {
+class RemoteRepositoryImpl implements RemoteRepository {
   final GptServiceApi _gptServiceApi;
 
-  RepositoryImpl(this._gptServiceApi);
+  RemoteRepositoryImpl(this._gptServiceApi);
 
   @override
-  Future<DataState> sendMessage(String message) async {
+  Future<DataState> sendMessage(String message, {String? key}) async {
     try {
-      var response = await _gptServiceApi.sendMessage(message);
+      var response = await _gptServiceApi.sendMessage(message, key: key);
       if (response.statusCode == 200) {
         return Success(
             data: chatModelFromJson(utf8.decode(response.bodyBytes)),

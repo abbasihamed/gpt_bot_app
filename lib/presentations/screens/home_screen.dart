@@ -33,7 +33,7 @@ class HomeScreen extends HookWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const SettingScreen(),
+                builder: (context) => SettingScreen(),
               ),
             );
           },

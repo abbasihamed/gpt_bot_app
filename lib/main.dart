@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
 
   Widget getStartPage() {
     if (kIsWeb) {
-      return const SettingScreen();
+      return SettingScreen();
     } else {
       return const HomeScreen();
     }

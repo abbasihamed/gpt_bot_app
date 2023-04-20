@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:talk_with_bot/data/local/hive_storage_imp.dart';
+import 'package:talk_with_bot/domain/usecase/api_key_usecase.dart';
 import 'package:talk_with_bot/injection.dart';
 
 class KeyController extends ChangeNotifier {
-  final _storageImp = getIt.get<HiveStorageImp>();
+  final _storageImp = getIt.get<ApiKeyUseCase>();
 
   String? _currentKey;
 
@@ -14,8 +14,8 @@ class KeyController extends ChangeNotifier {
   }
 
   addKey({required String value}) {
-    _storageImp.addData('secretKey', value);
-    setCurrentKey(value);
+    // _storageImp.addData('secretKey', value);
+    // setCurrentKey(value);
   }
 
   setCurrentKey(String? value) {
@@ -27,8 +27,8 @@ class KeyController extends ChangeNotifier {
     notifyListeners();
   }
 
-  getkey() {
-    final value = _storageImp.getData('secretKey');
-    setCurrentKey(value);
+  getkey() async {
+    final response = await _storageImp.execute('secretKey');
+    setCurrentKey(response.data as String);
   }
 }
