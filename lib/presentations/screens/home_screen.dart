@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:talk_with_bot/presentations/components/custom_appbar.dart';
 import 'package:talk_with_bot/presentations/components/message_card.dart';
@@ -18,7 +19,7 @@ class HomeScreen extends HookWidget {
     final isAnim = useState(false);
     final theme = Theme.of(context);
     final textController = useTextEditingController();
-    final scrollController = useScrollController();
+    // final scrollController = useScrollController();
 
     return Scaffold(
       backgroundColor: theme.backgroundColor,
@@ -34,27 +35,41 @@ class HomeScreen extends HookWidget {
                     notification.disallowIndicator();
                     return true;
                   },
-                  child: ListView.builder(
-                    controller: scrollController,
-                    itemCount: controller.isLoading
-                        ? controller.messagesList.length + 1
-                        : controller.messagesList.length,
-                    itemBuilder: (context, index) {
-                      if (controller.isLoading &&
-                          controller.messagesList.length == index) {
-                        return const MessagesCard(
-                          isLoading: true,
-                          sender: 'bot',
-                        );
-                      }
-                      return MessagesCard(
-                        sender: controller.messagesList[index].sender,
-                        message: controller.messagesList[index].message
-                            .replaceAll('\n', ''),
-                        date: Jiffy(controller.messagesList[index].dateTime).jm,
-                      );
-                    },
-                  ),
+                  child: controller.messagesList.isEmpty
+                      ? Lottie.asset(
+                          'assets/json/lottie-empty.json',
+                        )
+                      : ListView.builder(
+                          // controller: scrollController,
+                          itemCount: controller.isLoading
+                              ? controller.messagesList.length + 1
+                              : controller.messagesList.length,
+                          itemBuilder: (context, index) {
+                            // if (controller.messagesList.isEmpty) {
+                            //   return Container(
+                            //     height: 200,
+                            //     width: 200,
+                            //     color: Colors.black,
+                            //     child:
+                            //   );
+                            // }
+                            if (controller.isLoading &&
+                                controller.messagesList.length == index) {
+                              return const MessagesCard(
+                                isLoading: true,
+                                sender: 'bot',
+                              );
+                            }
+                            return MessagesCard(
+                              sender: controller.messagesList[index].sender,
+                              message: controller.messagesList[index].message
+                                  .replaceAll('\n', ''),
+                              date:
+                                  Jiffy(controller.messagesList[index].dateTime)
+                                      .jm,
+                            );
+                          },
+                        ),
                 ),
               ),
               Padding(
@@ -91,7 +106,7 @@ class HomeScreen extends HookWidget {
                         onTap: () {
                           if (textController.text.isNotEmpty) {
                             controller.sendMessage(textController.text);
-                            scrollToEnd(scrollController);
+                            // scrollToEnd(scrollController);
                             FocusScope.of(context).unfocus();
                           }
                           if (textController.text.isEmpty) {

@@ -13,7 +13,7 @@ class LocalRepositoryImpl implements LocalRepository {
     if (response != null) {
       return Success(data: response, code: 200);
     } else {
-      return Failed(data: 'No Key', code: 404);
+      return Failed(data: null, code: 404);
     }
   }
 
