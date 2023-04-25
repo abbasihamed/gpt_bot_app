@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
+import 'package:talk_with_bot/domain/usecase/set_theme_usecase.dart';
 import 'package:talk_with_bot/injection.dart';
 import 'package:talk_with_bot/presentations/components/message_card.dart';
-import 'package:talk_with_bot/presentations/logic/api_key_controller.dart';
 import 'package:talk_with_bot/presentations/logic/chat_controller.dart';
-import 'package:talk_with_bot/presentations/logic/theme_controller.dart';
 import 'package:talk_with_bot/presentations/logic/voice_to_text_controller.dart';
 import 'package:talk_with_bot/presentations/screens/setting.dart';
 import 'package:talk_with_bot/utils/app_theme.dart';
+import 'package:talk_with_bot/utils/const.dart';
 import 'package:talk_with_bot/utils/mediaquery.dart';
 
 class HomeScreen extends HookWidget {
@@ -22,8 +22,7 @@ class HomeScreen extends HookWidget {
     final theme = Theme.of(context);
     final textController = useTextEditingController();
     final scrollController = useScrollController();
-    final key = Provider.of<KeyController>(context, listen: false);
-    // getIt.get<InternetConnection>().checker();
+    final setTheme = getIt.get<SetThemeUseCase>();
     return Scaffold(
       backgroundColor: theme.backgroundColor,
       appBar: AppBar(
@@ -50,10 +49,13 @@ class HomeScreen extends HookWidget {
                         : AppTheme.lightTheme,
                   );
 
-                  getIt.get<ThemeDataController>().addData(
-                        key: 'theme',
-                        value: theme.brightness,
-                      );
+                  final Map<String, dynamic> params = {
+                    'key': themeKey,
+                    'value':
+                        theme.brightness == Brightness.light ? 'dark' : 'light',
+                  };
+
+                  setTheme.execute(params);
                 },
                 icon: theme.brightness == Brightness.light
                     ? const Icon(Icons.light_mode)
@@ -129,8 +131,7 @@ class HomeScreen extends HookWidget {
                       GestureDetector(
                         onTap: () {
                           if (textController.text.isNotEmpty) {
-                            controller.sendMessage(textController.text,
-                                key: key);
+                            controller.sendMessage(textController.text);
                             scrollToEnd(scrollController);
                             FocusScope.of(context).unfocus();
                           }

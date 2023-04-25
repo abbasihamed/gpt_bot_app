@@ -107,3 +107,13 @@ class AppTheme {
     );
   }
 }
+
+extension GetTheme on String {
+  ThemeData getTheme() {
+    if (this == 'light') {
+      return AppTheme.lightTheme;
+    } else {
+      return AppTheme.darkTheme;
+    }
+  }
+}

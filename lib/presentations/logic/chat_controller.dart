@@ -3,10 +3,10 @@ import 'package:talk_with_bot/data/mapper/message_mapper.dart';
 import 'package:talk_with_bot/data/models/gpt_models.dart' show ChatModel;
 import 'package:talk_with_bot/domain/entities/errors.dart';
 import 'package:talk_with_bot/domain/entities/message.dart';
-import 'package:talk_with_bot/domain/usecase/api_key_usecase.dart';
+import 'package:talk_with_bot/domain/usecase/api_usecase.dart';
 import 'package:talk_with_bot/domain/usecase/message_usecase.dart';
 import 'package:talk_with_bot/injection.dart';
-import 'package:talk_with_bot/presentations/logic/api_key_controller.dart';
+import 'package:talk_with_bot/utils/const.dart';
 import 'package:talk_with_bot/utils/data_state.dart';
 
 class ChatController extends ChangeNotifier {
@@ -37,11 +37,11 @@ class ChatController extends ChangeNotifier {
   }
 
   Future<String?> getApiKey() async {
-    final response = await _apiKey.execute('secretKey');
+    final response = await _apiKey.execute(secretKey);
     return response.data;
   }
 
-  sendMessage(String message, {KeyController? key}) async {
+  sendMessage(String message) async {
     setMessage(message.toMessage('user'));
     setLoading(true);
     final key = await getApiKey();

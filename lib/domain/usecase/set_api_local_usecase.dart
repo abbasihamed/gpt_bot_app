@@ -6,6 +6,6 @@ class SetApiKeyUseCase extends BaseUseCase<bool, Map> {
   SetApiKeyUseCase(this._localRepository);
   @override
   Future<bool> execute(Map params) async {
-    return  _localRepository.setData(params['key'], params['value']);
+    return _localRepository.setData(params['key'], params['value']);
   }
 }
