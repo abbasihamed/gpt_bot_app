@@ -20,9 +20,10 @@ void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
 
   setup();
+  await getIt.get<HiveStorageImp>().initDb();
+
   HttpOverrides.global = MyHttpOverrides();
 
-  await getIt.get<HiveStorageImp>().initDb();
   final theme = await getIt.get<GetThemeUseCase>().execute(themeKey);
 
   runApp(
@@ -41,7 +42,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    getIt.get<GetThemeUseCase>();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ChatController()),

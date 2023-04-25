@@ -1,16 +1,12 @@
-import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
-import 'package:talk_with_bot/domain/usecase/set_theme_usecase.dart';
-import 'package:talk_with_bot/injection.dart';
+import 'package:talk_with_bot/presentations/components/custom_appbar.dart';
 import 'package:talk_with_bot/presentations/components/message_card.dart';
+import 'package:talk_with_bot/presentations/components/send_button.dart';
 import 'package:talk_with_bot/presentations/logic/chat_controller.dart';
 import 'package:talk_with_bot/presentations/logic/voice_to_text_controller.dart';
-import 'package:talk_with_bot/presentations/screens/setting.dart';
-import 'package:talk_with_bot/utils/app_theme.dart';
-import 'package:talk_with_bot/utils/const.dart';
 import 'package:talk_with_bot/utils/mediaquery.dart';
 
 class HomeScreen extends HookWidget {
@@ -19,53 +15,14 @@ class HomeScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final isVoice = useState(false);
+    final isAnim = useState(false);
     final theme = Theme.of(context);
     final textController = useTextEditingController();
     final scrollController = useScrollController();
-    final setTheme = getIt.get<SetThemeUseCase>();
+
     return Scaffold(
       backgroundColor: theme.backgroundColor,
-      appBar: AppBar(
-        title: const Text('Bot'),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SettingScreen(),
-              ),
-            );
-          },
-          icon: const Icon(Icons.settings),
-        ),
-        actions: [
-          ThemeSwitcher.withTheme(
-            builder: (context, switcher, theme) {
-              return IconButton(
-                onPressed: () {
-                  switcher.changeTheme(
-                    theme: theme.brightness == Brightness.light
-                        ? AppTheme.darkTheme
-                        : AppTheme.lightTheme,
-                  );
-
-                  final Map<String, dynamic> params = {
-                    'key': themeKey,
-                    'value':
-                        theme.brightness == Brightness.light ? 'dark' : 'light',
-                  };
-
-                  setTheme.execute(params);
-                },
-                icon: theme.brightness == Brightness.light
-                    ? const Icon(Icons.light_mode)
-                    : const Icon(Icons.dark_mode),
-              );
-            },
-          ),
-        ],
-        elevation: 0,
-      ),
+      appBar: CustomAppBar(),
       body: Consumer2<ChatController, VoiceToTextController>(
         builder: (context, controller, voice, child) {
           return Column(
@@ -128,7 +85,9 @@ class HomeScreen extends HookWidget {
                         ),
                       ),
                       SizedBox(width: kWidth(context) * 0.02),
-                      GestureDetector(
+                      SendButton(
+                        icon: isVoice.value ? Icons.mic : Icons.send,
+                        animated: isAnim.value,
                         onTap: () {
                           if (textController.text.isNotEmpty) {
                             controller.sendMessage(textController.text);
@@ -143,22 +102,16 @@ class HomeScreen extends HookWidget {
                         onLongPress: () {
                           if (isVoice.value) {
                             voice.startRecorde(textController);
+                            isAnim.value = true;
                           }
                         },
                         onLongPressUp: () {
                           if (isVoice.value) {
                             voice.stopRecorde();
                             isVoice.value = !isVoice.value;
+                            isAnim.value = false;
                           }
                         },
-                        child: CircleAvatar(
-                          maxRadius: 22,
-                          backgroundColor: theme.cardColor,
-                          child: Icon(
-                            isVoice.value ? Icons.mic : Icons.send,
-                            color: theme.iconTheme.color,
-                          ),
-                        ),
                       ),
                     ],
                   ),
