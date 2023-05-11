@@ -8,13 +8,13 @@ class AppLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: const [
+      children:  [
         JumpingDots(
           color: Colors.yellow,
           radius: 10,
           numberOfDots: 3,
           innerPadding: 5,
-          animationDuration: Duration(milliseconds: 200),
+          animationDuration: const Duration(milliseconds: 200),
         ),
       ],
     );
