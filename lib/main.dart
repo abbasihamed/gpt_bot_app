@@ -30,7 +30,7 @@ void main(List<String> args) async {
     DevicePreview(
       enabled: false,
       builder: (context) {
-        return MyApp(initialTheme: (theme.data as String).getTheme());
+        return MyApp(initialTheme: (theme.data as String?)?.getTheme() ?? AppTheme.lightTheme);
       },
     ),
   );
